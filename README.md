@@ -24,4 +24,4 @@ public void ConfigureServices(IServiceCollection services)
 
 That's it!
 
-If requests are made with the request header`Authorization` , and have the scheme `bearer <token>`, `Jwt` will be visible on the individual requests in Application Insights.
+If requests are made with the request header`Authorization`, and have the scheme `bearer <token>`, `Jwt` will be visible on the individual requests in Application Insights.
