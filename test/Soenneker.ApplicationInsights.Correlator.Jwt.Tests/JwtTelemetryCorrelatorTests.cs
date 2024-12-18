@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Soenneker.ApplicationInsights.Correlator.Jwt.Abstract;
 using Soenneker.Tests.FixturedUnit;
 using Xunit;
-using Xunit.Abstractions;
+
 
 namespace Soenneker.ApplicationInsights.Correlator.Jwt.Tests;
 
