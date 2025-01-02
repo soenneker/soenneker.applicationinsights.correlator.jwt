@@ -14,7 +14,7 @@
         <AssemblyName>Soenneker.ApplicationInsights.Correlator.Jwt</AssemblyName>
         <PackageId>Soenneker.ApplicationInsights.Correlator.Jwt</PackageId>
         <PackageTags>applicationinsights correlator jwt azure application-insights application insights request correlation jwttelemetrycorrelator util csharp dotnet c# .net</PackageTags>
-        <Copyright>Copyright © 2024 Jake Soenneker</Copyright>
+        <Copyright>Copyright © 2024-2025 Jake Soenneker</Copyright>
         <Authors>Jake Soenneker</Authors>
         <Company>https://soenneker.com</Company>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
