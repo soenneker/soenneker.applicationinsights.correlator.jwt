@@ -1,4 +1,4 @@
-# Contributing to Soenneker.ApplicationInsights.Correlator.Jwt
+﻿# Contributing to Soenneker.ApplicationInsights.Correlator.Jwt
 
 We're excited that you're interested in contributing!
 
