@@ -11,7 +11,7 @@ using System;
 namespace Soenneker.ApplicationInsights.Correlator.Jwt;
 
 /// <inheritdoc cref="IJwtTelemetryCorrelator"/>
-public class JwtTelemetryCorrelator : ITelemetryInitializer
+public sealed class JwtTelemetryCorrelator : ITelemetryInitializer
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
 
