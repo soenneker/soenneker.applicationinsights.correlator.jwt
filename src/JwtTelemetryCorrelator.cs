@@ -1,52 +1,36 @@
-using System.Linq;
-using Soenneker.ApplicationInsights.Correlator.Jwt.Abstract;
-using Microsoft.ApplicationInsights.Channel;
-using Microsoft.ApplicationInsights.DataContracts;
-using Microsoft.ApplicationInsights.Extensibility;
-using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
-using System;
+using OpenTelemetry.Instrumentation.AspNetCore;
 
 namespace Soenneker.ApplicationInsights.Correlator.Jwt;
 
-/// <inheritdoc cref="IJwtTelemetryCorrelator"/>
-public sealed class JwtTelemetryCorrelator : ITelemetryInitializer
+public sealed class JwtTelemetryCorrelator : IConfigureOptions<AspNetCoreTraceInstrumentationOptions>
 {
-    private readonly IHttpContextAccessor _httpContextAccessor;
-
-    public JwtTelemetryCorrelator(IHttpContextAccessor httpContextAccessor)
+    public void Configure(AspNetCoreTraceInstrumentationOptions options)
     {
-        _httpContextAccessor = httpContextAccessor;
-    }
-
-    public void Initialize(ITelemetry telemetry)
-    {
-        if (telemetry is not RequestTelemetry requestTelemetry)
-            return;
-
-        HttpContext? context = _httpContextAccessor.HttpContext;
-
-        if (context == null || !context.Request.Headers.TryGetValue(HeaderNames.Authorization, out StringValues authorizationHeaderValues))
-            return;
-
-        string? authorizationHeader = authorizationHeaderValues.FirstOrDefault();
-
-        if (authorizationHeader == null) 
-            return;
-
-        ReadOnlySpan<char> authorizationSpan = authorizationHeader.AsSpan();
-
-        int spaceIndex = authorizationSpan.IndexOf(' ');
-
-        if (spaceIndex != -1 && authorizationSpan.Length > spaceIndex + 1)
+        options.EnrichWithHttpRequest = static (activity, request) =>
         {
-            ReadOnlySpan<char> jwtSpan = authorizationSpan.Slice(spaceIndex + 1);
+            if (activity is null || !activity.IsAllDataRequested)
+                return;
 
-            if (!jwtSpan.IsEmpty)
-            {
-                requestTelemetry.Properties["Jwt"] = jwtSpan.ToString();
-            }
-        }
+            if (!request.Headers.TryGetValue(HeaderNames.Authorization, out StringValues authValues))
+                return;
+
+            string? auth = authValues.Count > 0 ? authValues[0] : null;
+            if (string.IsNullOrWhiteSpace(auth))
+                return;
+
+            int spaceIndex = auth.IndexOf(' ');
+            if (spaceIndex < 0 || spaceIndex + 1 >= auth.Length)
+                return;
+
+            string jwt = auth[(spaceIndex + 1)..];
+            if (jwt.Length == 0)
+                return;
+
+            // ⚠️ Consider hashing / claim extraction instead of raw JWT
+            activity.SetTag("app.jwt", jwt);
+        };
     }
 }

@@ -1,6 +1,6 @@
-﻿using Microsoft.ApplicationInsights.Extensibility;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using OpenTelemetry.Instrumentation.AspNetCore;
 using Soenneker.ApplicationInsights.Correlator.Jwt.Abstract;
 
 namespace Soenneker.ApplicationInsights.Correlator.Jwt.Registrars;
@@ -15,8 +15,7 @@ public static class JwtTelemetryCorrelatorRegistrar
     /// </summary>
     public static IServiceCollection AddJwtTelemetryCorrelatorAsSingleton(this IServiceCollection services)
     {
-        services.AddHttpContextAccessor();
-        services.TryAddSingleton<ITelemetryInitializer, JwtTelemetryCorrelator>();
+        services.AddSingleton<IConfigureOptions<AspNetCoreTraceInstrumentationOptions>, JwtTelemetryCorrelator>();
         return services;
     }
 }
