@@ -1,16 +1,15 @@
-using Soenneker.Tests.FixturedUnit;
-using Xunit;
+using Soenneker.Tests.HostedUnit;
 
 namespace Soenneker.ApplicationInsights.Correlator.Jwt.Tests;
 
-[Collection("Collection")]
-public class JwtTelemetryCorrelatorTests : FixturedUnitTest
+[ClassDataSource<Host>(Shared = SharedType.PerTestSession)]
+public class JwtTelemetryCorrelatorTests : HostedUnitTest
 {
-    public JwtTelemetryCorrelatorTests(Fixture fixture, ITestOutputHelper output) : base(fixture, output)
+    public JwtTelemetryCorrelatorTests(Host host) : base(host)
     {
     }
 
-    [Fact]
+    [Test]
     public void Default()
     {
 
