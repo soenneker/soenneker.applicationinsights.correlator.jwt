@@ -38,7 +38,7 @@ jobs:
         run: dotnet build test/Soenneker.ApplicationInsights.Correlator.Jwt.Tests/Soenneker.ApplicationInsights.Correlator.Jwt.Tests.csproj --configuration Release --no-restore --verbosity minimal
 
       - name: Test
-        run: dotnet test test/Soenneker.ApplicationInsights.Correlator.Jwt.Tests/Soenneker.ApplicationInsights.Correlator.Jwt.Tests.csproj --configuration Release --no-build --no-restore --verbosity minimal
+        run: dotnet test --project test/Soenneker.ApplicationInsights.Correlator.Jwt.Tests/Soenneker.ApplicationInsights.Correlator.Jwt.Tests.csproj --configuration Release --no-build --no-restore --verbosity minimal
 
       - name: Pack
         run: dotnet pack src/Soenneker.ApplicationInsights.Correlator.Jwt/Soenneker.ApplicationInsights.Correlator.Jwt.csproj --configuration Release --no-build --no-restore --output . --verbosity minimal
