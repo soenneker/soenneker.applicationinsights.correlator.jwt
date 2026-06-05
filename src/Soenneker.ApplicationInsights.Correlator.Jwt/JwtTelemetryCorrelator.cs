@@ -5,8 +5,15 @@ using OpenTelemetry.Instrumentation.AspNetCore;
 
 namespace Soenneker.ApplicationInsights.Correlator.Jwt;
 
+/// <summary>
+/// Represents the jwt telemetry correlator.
+/// </summary>
 public sealed class JwtTelemetryCorrelator : IConfigureOptions<AspNetCoreTraceInstrumentationOptions>
 {
+    /// <summary>
+    /// Configures the specified options.
+    /// </summary>
+    /// <param name="options">The options.</param>
     public void Configure(AspNetCoreTraceInstrumentationOptions options)
     {
         options.EnrichWithHttpRequest = static (activity, request) =>
