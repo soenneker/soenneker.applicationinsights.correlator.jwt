@@ -3,26 +3,37 @@
 [![](https://img.shields.io/nuget/dt/soenneker.applicationinsights.correlator.jwt.svg?style=for-the-badge)](https://www.nuget.org/packages/soenneker.applicationinsights.correlator.jwt/)
 [![](https://img.shields.io/github/actions/workflow/status/soenneker/soenneker.applicationinsights.correlator.jwt/codeql.yml?label=CodeQL&style=for-the-badge)](https://github.com/soenneker/soenneker.applicationinsights.correlator.jwt/actions/workflows/codeql.yml)
 
-# ![](https://user-images.githubusercontent.com/4441470/224455560-91ed3ee7-f510-4041-a8d2-3fc093025112.png) Soenneker.ApplicationInsights.Correlator.Jwt
-### A telemetry initializer that adds a request's authorization header
+# Soenneker.ApplicationInsights.Correlator.Jwt
 
-## Installation
+A telemetry initializer that adds a request's authorization header.
 
-```
+## Install
+
+```bash
 dotnet add package Soenneker.ApplicationInsights.Correlator.Jwt
 ```
 
-## Usage
-
-### 1. Add the following to your `Startup.cs` file
+## Quick start
 
 ```csharp
-public void ConfigureServices(IServiceCollection services)
-{
-    services.AddJwtTelemetryCorrelatorAsSingleton();
-}
+using Soenneker.ApplicationInsights.Correlator.Jwt.Registrars;
+using Microsoft.Extensions.DependencyInjection;
+
+var services = new ServiceCollection();
+var result = services.AddJwtTelemetryCorrelatorAsSingleton();
 ```
 
-That's it!
+Adds `IJwtTelemetryCorrelator` as a singleton service.
 
-If requests are made with the request header`Authorization`, and have the scheme `bearer <token>`, `Jwt` will be visible on the individual requests in Application Insights.
+## What you get
+
+- `IJwtTelemetryCorrelator` — A telemetry initializer that adds a request's authorization header.
+- `JwtTelemetryCorrelatorRegistrar` — A telemetry initializer that adds a request's authorization header.
+- `JwtTelemetryCorrelator` — Represents the jwt telemetry correlator.
+
+## API at a glance
+
+| API | What it does | Result / important behavior |
+| --- | --- | --- |
+| `JwtTelemetryCorrelatorRegistrar.AddJwtTelemetryCorrelatorAsSingleton(services)` | Adds `IJwtTelemetryCorrelator` as a singleton service. | The same service collection, so additional registrations can be chained. |
+| `JwtTelemetryCorrelator.Configure(options)` | Applies jwt telemetry correlator-specific settings to the supplied options. | Returns no value; the requested change is complete when the method returns. |
