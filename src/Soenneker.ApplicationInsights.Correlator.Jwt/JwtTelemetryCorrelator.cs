@@ -11,9 +11,9 @@ namespace Soenneker.ApplicationInsights.Correlator.Jwt;
 public sealed class JwtTelemetryCorrelator : IConfigureOptions<AspNetCoreTraceInstrumentationOptions>
 {
     /// <summary>
-    /// Configures the specified options.
+    /// Applies jwt telemetry correlator-specific settings to the supplied options.
     /// </summary>
-    /// <param name="options">The options.</param>
+    /// <param name="options">Options to configure for the jwt telemetry correlator.</param>
     public void Configure(AspNetCoreTraceInstrumentationOptions options)
     {
         options.EnrichWithHttpRequest = static (activity, request) =>
