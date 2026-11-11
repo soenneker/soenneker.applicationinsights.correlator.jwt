@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using OpenTelemetry.Instrumentation.AspNetCore;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.AspNetCore.Hosting;
 using Soenneker.ApplicationInsights.Correlator.Jwt.Abstract;
 
 namespace Soenneker.ApplicationInsights.Correlator.Jwt.Registrars;
@@ -17,7 +17,9 @@ public static class JwtTelemetryCorrelatorRegistrar
     /// <returns>The same service collection, so additional registrations can be chained.</returns>
     public static IServiceCollection AddJwtTelemetryCorrelatorAsSingleton(this IServiceCollection services)
     {
-        services.AddSingleton<IConfigureOptions<AspNetCoreTraceInstrumentationOptions>, JwtTelemetryCorrelator>();
+        services.TryAddSingleton<JwtTelemetryCorrelator>();
+        services.TryAddSingleton<IJwtTelemetryCorrelator>(provider => provider.GetRequiredService<JwtTelemetryCorrelator>());
+        services.TryAddEnumerable(ServiceDescriptor.Singleton<IStartupFilter, JwtTelemetryCorrelator>());
         return services;
     }
 }

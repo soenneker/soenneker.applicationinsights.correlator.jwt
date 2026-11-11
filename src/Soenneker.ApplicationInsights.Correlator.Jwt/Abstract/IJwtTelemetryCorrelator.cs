@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Http;
+
 namespace Soenneker.ApplicationInsights.Correlator.Jwt.Abstract;
 
 /// <summary>
@@ -5,4 +7,6 @@ namespace Soenneker.ApplicationInsights.Correlator.Jwt.Abstract;
 /// </summary>
 public interface IJwtTelemetryCorrelator
 {
+    /// <summary>Adds the authorization token to the native request activity when that activity requests enrichment.</summary>
+    void Enrich(HttpContext context);
 }
